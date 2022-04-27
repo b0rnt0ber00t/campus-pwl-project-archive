@@ -3,6 +3,7 @@
 use App\Http\Controllers\DemoController;
 use App\Http\Controllers\Menu\MenuGroupController;
 use App\Http\Controllers\Menu\MenuItemController;
+use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\RoleAndPermission\AssignPermissionController;
 use App\Http\Controllers\RoleAndPermission\AssignUserToRoleController;
 use App\Http\Controllers\RoleAndPermission\ExportPermissionController;
@@ -29,12 +30,12 @@ Route::get('/', function () {
     return view('auth/login');
 });
 
-Route::group(['middleware' => ['auth','verified']], function () {
+Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/dashboard', function () {
         return view('home', ['users' => User::get(),]);
     });
-    //user list
 
+    //user list
     Route::prefix('user-management')->group(function () {
         Route::resource('user', UserController::class);
         Route::post('import', [UserController::class, 'import'])->name('user.import');
@@ -46,6 +47,7 @@ Route::group(['middleware' => ['auth','verified']], function () {
         Route::resource('menu-group', MenuGroupController::class);
         Route::resource('menu-item', MenuItemController::class);
     });
+
     Route::group(['prefix' => 'role-and-permission'], function () {
         //role
         Route::resource('role', RoleController::class);
@@ -71,4 +73,12 @@ Route::group(['middleware' => ['auth','verified']], function () {
         Route::get('assing-user/{user}/edit', [AssignUserToRoleController::class, 'edit'])->name('assign.user.edit');
         Route::put('assign-user/{user}', [AssignUserToRoleController::class, 'update'])->name('assign.user.update');
     });
+
+    // Product
+    Route::resource('product', ProductController::class);
+    Route::prefix('product')->name('product.')
+        ->controller(ProductController::class)->group(function () {
+            Route::post('import', 'import')->name('import');
+            Route::get('export', 'export')->name('export');
+        });
 });
