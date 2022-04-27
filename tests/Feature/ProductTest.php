@@ -34,6 +34,7 @@ class ProductTest extends TestCase
             ]);
 
         $response->assertRedirect('/product');
+
         $this->actingAs($user)->get('/product')->assertSeeText('product 1');
     }
 
@@ -54,7 +55,6 @@ class ProductTest extends TestCase
             ]);
 
         $response = $this->actingAs($user)->get('/product');
-
         $response->assertSeeText('product 1 update') && $response->assertSeeText(99);
     }
 
