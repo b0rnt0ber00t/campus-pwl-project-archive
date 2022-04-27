@@ -47,10 +47,11 @@ class ProductTest extends TestCase
             'user_id' => $user->id,
         ]);
 
-        $response = $this->actingAs($user)->put('/product/' . $product->id, [
-            'name' => 'product 1 update',
-            'price' => 99
-        ]);
+        $response = $this->actingAs($user)
+            ->put('/product/' . $product->id, [
+                'name' => 'product 1 update',
+                'price' => 99
+            ]);
 
         $response = $this->actingAs($user)->get('/product');
 
