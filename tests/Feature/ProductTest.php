@@ -67,14 +67,10 @@ class ProductTest extends TestCase
             'user_id' => $user->id,
         ]);
 
-        $response = $this->actingAs($user)->get('/product');
-
-        $response->assertSeeText('product 1 deleted');
+        $this->actingAs($user)->get('/product')->assertSeeText('product 1 deleted');
 
         $response = $this->actingAs($user)->delete('/product/' . $product->id);
-
         $response->assertRedirect('/product');
-
         $response->assertDontSeeText('product 1 deleted');
     }
 }
