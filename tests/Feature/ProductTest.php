@@ -44,6 +44,7 @@ class ProductTest extends TestCase
         $product = Product::create([
             'name' => 'product 1',
             'price' => rand(10, 100),
+            'user_id' => $user->id,
         ]);
 
         $response = $this->actingAs($user)->put('/product/' . $product->id, [
@@ -63,6 +64,7 @@ class ProductTest extends TestCase
         $product = Product::create([
             'name' => 'product 1 deleted',
             'price' => rand(10, 100),
+            'user_id' => $user->id,
         ]);
 
         $response = $this->actingAs($user)->get('/product');

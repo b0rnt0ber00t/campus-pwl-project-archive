@@ -18,7 +18,7 @@ trait ProductStoreHelper
 
   private function __merge(Request $request): array
   {
-    $store = array();
+    $store = array('user_id' => auth()->id());
 
     foreach ($this->__request($request) as $product) {
       $store = array_merge($store, $product);
